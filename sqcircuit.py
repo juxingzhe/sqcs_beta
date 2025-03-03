@@ -285,4 +285,19 @@ class SQCircuit:
 
         Args:
             key: Quantum element name or index
-        
+            
+        Returns:
+            Quantum element (Transmon or Coupler)
+        """
+        if isinstance(key, int):
+            if 0 <= key < self.quantum_elements_num:
+                return self.quantum_elements[key]
+            else:
+                raise IndexError(f"Index {key} is out of range for circuit with {self.quantum_elements_num} elements")
+        elif isinstance(key, str):
+            for element in self.quantum_elements:
+                if element.name == key:
+                    return element
+            raise KeyError(f"No quantum element named '{key}' in the circuit")
+        else:
+            raise TypeError(f"Key must be int or str, not {type(key)}")
